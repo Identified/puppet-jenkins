@@ -8,9 +8,11 @@
 #
 define jenkins::plugin(
   $version=0,
-  $manage_config   = false,
-  $config_filename = undef,
-  $config_content  = undef,
+  $manage_config              = false,
+  $config_filename            = undef,
+  $config_content             = undef,
+  $plugin_download_url        = 'http://updates.jenkins-ci.org/download/plugins',
+  $latest_plugin_download_url = 'http://updates.jenkins-ci.org/latest/',
 ) {
 
   $plugin            = "${name}.hpi"
@@ -19,11 +21,11 @@ define jenkins::plugin(
   validate_bool ($manage_config)
 
   if ($version != 0) {
-    $base_url = "http://updates.jenkins-ci.org/download/plugins/${name}/${version}/"
+    $base_url = "${plugin_download_url}/${name}/${version}/"
     $search   = "${name} ${version}(,|$)"
   }
   else {
-    $base_url = 'http://updates.jenkins-ci.org/latest/'
+    $base_url = $latest_plugin_download_url
     $search   = "${name} "
   }
 

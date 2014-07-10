@@ -75,11 +75,12 @@ class jenkins::slave (
   $disable_ssl_verification = false,
   $labels                   = undef,
   $install_java             = $jenkins::params::install_java,
-  $enable                   = true
+  $enable                   = true,
+  $maven_repo_url           = 'http://maven.jenkins-ci.org/content/repositories/releases'
 ) inherits jenkins::params {
 
   $client_jar = "swarm-client-${version}-jar-with-dependencies.jar"
-  $client_url = "http://maven.jenkins-ci.org/content/repositories/releases/org/jenkins-ci/plugins/swarm-client/${version}/"
+  $client_url = "${maven_repo_url}/org/jenkins-ci/plugins/swarm-client/${version}/"
 
   if $install_java {
     class {'java':

@@ -28,10 +28,10 @@ slave_stop() {
   echo Stopping Jenkins Slave...
   pid=`cat $PID_FILE`
 
-  killproc -p $PID_FILE
+  kill $pid
 
   # Wait until the monitor exits
-  while (checkpid $pid)
+  while (kill -0 $pid > /dev/null 2>&1)
   do
       usleep 100000
   done
@@ -49,9 +49,10 @@ slave_restart() {
   [ $RETVAL -eq 0 ] && touch $LOCK_FILE
 }
 slave_status() {
-  echo Jenkins Slave status:
-  status -p $PID_FILE
+  pid=`cat $PID_FILE`
+  kill -0 $pid > /dev/null 2>&1
   RETVAL=$?
+  if [ $RETVAL -eq 0 ]; then echo 'Jenkins Slave status: OK'; else echo 'Jenkins Slave status: FAIL'; fi
 }
 case "$1" in
   start)
