@@ -183,7 +183,7 @@ class jenkins::slave (
     default: {
       file { '/etc/init.d/jenkins-slave':
         ensure  => 'file',
-        mode    => '0700',
+        mode    => '0755',
         owner   => 'root',
         group   => 'root',
         content => template("${module_name}/jenkins-slave.erb"),
